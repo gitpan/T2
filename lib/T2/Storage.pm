@@ -90,9 +90,13 @@ to load the Tangram schema is made.
 
 =cut
 
+use Scalar::Util qw(blessed);
+
+our @dsn_path = qw(. etc ../etc);
+
 sub get_dsn_info {
     my $self;
-    if (ref $_[0]) {
+    if (blessed $_[0] and $_[0]->isa(__PACKAGE__)) {
 	$self = shift;
     }
     my ($site_name, $dont_get_schema) = (@_);
@@ -100,12 +104,12 @@ sub get_dsn_info {
 
     # read in the DSN info
     my $dsn_file;
-    for my $path (qw(. etc ../etc)) {
+    for my $path (@dsn_path) {
 	( -f ($dsn_file = "$path/${site_name}.dsn")) && last;
     }
     CORE::open DSN, "<$dsn_file"
 	or die ("Failed to load site DSN configuration file "
-		."$dsn_file; $!");
+		."${site_name}.dsn (search path: @dsn_path); $!");
     my ($dsn, $username, $auth, $schema_eval);
     while (<DSN>) {
 	chomp;

@@ -35,7 +35,7 @@ SKIP: {
 
     my $schema_storage;
     eval {
-	$schema_storage = T2::Storage->open("t/schema");
+	$schema_storage = T2::Storage->open("t/T2");
     };
     skip "Schema DB connect failed", 5 if $@;
 

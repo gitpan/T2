@@ -1,3 +1,9 @@
+libt2-perl (0.07) unstable; urgency=low
+
+  * Added T2::DBSetup
+
+ -- Sam Vilain <sam@vilain.net>  Tue, 13 Jan 2004 20:39:05 +1300
+
 libt2-perl (0.06) unstable; urgency=low
 
   * First CPAN release

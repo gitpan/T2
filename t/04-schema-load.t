@@ -13,7 +13,7 @@ use_ok("T2::Schema");
 
 use T2::Storage;
 
-my $storage = T2::Storage->open("t/schema");
+my $storage = T2::Storage->open("t/T2");
 
 ok($storage && $storage->isa("T2::Storage"),
    "Connected to schema database");

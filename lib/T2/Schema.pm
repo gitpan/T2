@@ -47,6 +47,7 @@ our $schema =
 		 site_name => { sql => "varchar(16) not null" },
 		 normalize => { sql => "TEXT" },
 		 version => { sql => "VARCHAR(16)" },
+		 table_type => { sql => "varchar(16)" },
 		},
       iarray => {
 		 classes => {
@@ -165,15 +166,24 @@ case, the file name is assumed to be F<etc/site.t2>.
 
 =cut
 
+our @schema_path = qw(. etc ../etc);
+
 sub read {
     my $class = shift;
     my $filename = shift;
 
-    if ( ! -f $filename ) {
-	$filename = "etc/$filename.t2";
+    my $t2_file;
+    for my $ext ("", ".t2") {
+	for my $path (@schema_path) {
+	    ( -f ($t2_file = "$path/${filename}$ext")) && last;
+	    $t2_file = undef;
+	}
     }
-    open DUMP, "<$filename"
-	or die "Failed to open $filename for reading; $!";
+    die "Cannot find T2 schema for $filename in @schema_path"
+	unless $t2_file;
+
+    open DUMP, "<$t2_file"
+	or die "Failed to open $t2_file for reading; $!";
 
     binmode DUMP;
     local($/)=undef;
@@ -361,6 +371,9 @@ sub get_schema {
 		cid_size => $self->cid_size,
 	  	classes => \@classes,
 		normalize => $self->normalize_sub,
+		( $self->table_type
+		  ? (sql => { table_type => $self->table_type })
+		  : () ),
 	       })
 	    );
     }
