@@ -1,0 +1,27 @@
+README
+lib/T2.pm
+lib/T2/Schema.pm
+lib/T2/Class.pm
+lib/T2/Attribute.pm
+lib/T2/Association.pm
+lib/T2/Method.pm
+debian/control
+debian/rules
+debian/changelog
+debian/README.Debian
+debian/copyright
+Makefile.PL
+MANIFEST
+lib/T2/Storage.pm
+sbin/make_diff.pl
+sbin/setup-schemadb.pl
+bin/t2-db-info.pl
+bin/t2-fsck-schema.pl
+bin/t2-migrate-db.pl
+bin/t2-write-js.pl
+t/01-load.t
+t/02-class-tangram.t
+t/03-import-tangram.t
+t/04-schema-load.t
+t/05-schema-read.t
+META.yml                                 Module meta-data (added by MakeMaker)

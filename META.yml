@@ -1,0 +1,15 @@
+# http://module-build.sourceforge.net/META-spec.html
+#XXXXXXX This is a prototype!!!  It will change in the future!!! XXXXX#
+name:         T2
+version:      0.06
+version_from: lib/T2.pm
+installdirs:  site
+requires:
+    Class::Tangram:                1.54
+    DBI:                           0
+    Set::Object:                   1.04
+    Tangram:                       2.07
+    Test::More:                    0
+
+distribution_type: module
+generated_by: ExtUtils::MakeMaker version 6.17
