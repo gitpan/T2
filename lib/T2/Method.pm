@@ -10,15 +10,15 @@ our $schema =
     {
      fields =>
      {
-      string => {
-		 name => { sql => "varchar(40)" },
-		 code => { sql => "BLOB" },
-		 js_code => { sql => "BLOB" },
-		 # these are just comments for now
-		 returnval => undef,
-		 parameters => undef,
-		 comment => {sql => "TEXT" },
-		},
+      idbif => {
+		name => { },
+		code => { },
+		js_code => { },
+		# these are just comments for now
+		returnval => undef,
+		parameters => undef,
+		comment => { },
+	       },
       ref => {
 	      # back-reference
 	      class => {

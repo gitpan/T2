@@ -38,7 +38,7 @@ our $schema =
 		       },
 	     },
 
-      string =>
+      idbif =>
       {
        # what the attribute in the target/source class is called
        name_source => undef,
@@ -51,6 +51,26 @@ our $schema =
        order => { sql => 'enum("set", "array", "hash")',
 		  col => '_order'
 		},
+       # if set, never store this association in storage
+       #
+       # Note: this currently isn't a good idea for anything
+       # except *->1 associations (references)
+       transient => undef,
+
+       # multiplicity of the association (-1 is considered
+       # `infinity')
+       source_min => { init_default => 1 },
+       source_max => { init_default => 1 },
+
+       dest_min   => { init_default => 1 },
+       dest_max   => { init_default => 1 },
+
+       # This indicates a composite (as opposed to aggregate)
+       # relationship
+       composite  => { sql => "TINYINT" },
+       options => {
+		   sql => 'blob',
+		  },
       },
 
       transient => {
@@ -58,35 +78,6 @@ our $schema =
 		   is_backwards => undef,
 		   },
 
-      int => {
-	      # if set, never store this association in storage
-	      #
-	      # Note: this currently isn't a good idea for anything
-	      # except *->1 associations (references)
-	      transient => undef,
-
-	      # multiplicity of the association (-1 is considered
-	      # `infinity')
-	      source_min => { init_default => 1 },
-	      source_max => { init_default => 1 },
-
-	      dest_min   => { init_default => 1 },
-	      dest_max   => { init_default => 1 },
-
-	      # This indicates a composite (as opposed to aggregate)
-	      # relationship
-	      composite  => { sql => "TINYINT" },
-	     },
-
-      perl_dump =>
-      {
-       # the hash passed to Tangram.  The more observant may notice
-       # that this means you can't pass closures.  Oh well.  Perhaps
-       # later.
-       options => {
-		   sql => 'blob',
-		  },
-      },
 
       dmdatetime => {
 		     # when this object last changed

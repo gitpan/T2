@@ -58,38 +58,19 @@ our $schema =
     {
      fields =>
      {
-      string =>
+      idbif =>
       {
-       type => {
-		sql => ('enum('.join
-			(",",map{qq{"$_"}}
-
-			 qw(string int real ref array iarray set iset
-			    date rawdatetime rawdate rawtime flat_array
-			    dmdatetime hash flat_hash perl_dump)
-			).')'),
-		col => "_type",
-		},
+       type => { },
        # a description of the field
        name => undef,
        comment => { sql => "TEXT" },
-      },
-      ref => {
-	      # the class we are a member of
-	      class => {
-			class => "T2::Class",
-			companion => "attributes",
-		       },
-	     },
-      int => {
-	      # if set, never store this attribute in storage
-	      transient => undef,
 
-	      # if set, add an index on this column after DB creation
-	      indexed => undef,
-	     },
-      perl_dump =>
-      {
+       # if set, never store this attribute in storage
+       transient => undef,
+
+       # if set, add an index on this column after DB creation
+       indexed => undef,
+
        # the hash passed to Tangram.  The more observant may notice
        # that this means you can't pass closures.  Oh well.  Perhaps
        # later.
@@ -98,11 +79,19 @@ our $schema =
 		   init_default => { },
 		  },
       },
+      ref => {
+	      # the class we are a member of
+	      class => {
+			class => "T2::Class",
+			companion => "attributes",
+		       },
+	     },
       dmdatetime => {
 		     # when this object last changed
 		     changed => { sql => "TIMESTAMP" },
 		    },
-     }
+
+     },
     };
 
 sub example_value {

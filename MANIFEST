@@ -5,6 +5,7 @@ lib/T2/Class.pm
 lib/T2/Attribute.pm
 lib/T2/Association.pm
 lib/T2/Method.pm
+lib/T2/DBSetup.pm
 debian/control
 debian/rules
 debian/changelog

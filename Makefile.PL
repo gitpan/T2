@@ -5,11 +5,11 @@ use ExtUtils::MakeMaker;
 use lib 'lib';
 
 eval "use T2::DBSetup";
-warn $@, goto NOTESTS if $@;
+warn($@), goto NOTESTS if $@;
 
 # get the schema for your project...
 eval "use T2::Schema";
-warn $@, goto NOTESTS if $@;
+warn($@), goto NOTESTS if $@;
 
 my $schema = $T2::Schema::class_obj;
 
@@ -29,12 +29,15 @@ WriteMakefile
 			    Tangram => 2.07,
 			    "Test::More" => 0,
 			    DBI => 0,
+			    Storable => 2.07,
 			   },
      'VERSION_FROM'     => "lib/T2.pm",
      'EXE_FILES'	=> [ <bin/*.pl> ],
      ($] >= 5.005 ?    ## Add these new keywords supported since 5.005
       (ABSTRACT         => "Object Relational mapping/persistence system",
        AUTHOR           => "Sam Vilain <samv@cpan.org>") : ()),
+     clean => { FILES => "t/T2.t2" },
+     realclean => { FILES => "t/T2.*" },
     );
 
-
+print "All done!  Now watch as Term::ReadLine::Gnu segfaults... :)\n";

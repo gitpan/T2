@@ -5,7 +5,7 @@
 
 use lib "../lib";
 
-use Test::More tests => 10;
+use Test::More tests => 11;
 use T2::Schema;
 
 my $schema = new T2::Schema ( site_name => "schema" );
@@ -37,7 +37,8 @@ SKIP: {
     eval {
 	$schema_storage = T2::Storage->open("t/T2");
     };
-    skip "Schema DB connect failed", 5 if $@;
+    skip "Schema DB connect failed ($@)", 6 if $@;
+    pass("connection opened to storage");
 
     eval {
 
@@ -51,7 +52,9 @@ SKIP: {
 
     };
 
-    # insert the `test' schema
+    # hack - think of a better way to deal with this later
+    $schema->class("T2::Schema")->attribute("normalize_sub")->options->{init_default} = undef;
+
     my $oid = $schema_storage->insert($schema);
     ok($oid, "Schema for T2::Schema inserted to database");
 

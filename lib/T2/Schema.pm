@@ -21,7 +21,6 @@ package T2::Schema;
 
 use Storable qw(freeze thaw);
 use Set::Object qw(blessed reftype);
-use Defer;
 
 use strict 'vars', 'subs';
 use Carp;
@@ -39,16 +38,16 @@ our $schema =
     {
      fields =>
      {
-      int => {
-	      cid_size => { sql => "TINYINT",
-			    init_default => 3 },
-	     },
       string => {
-		 site_name => { sql => "varchar(16) not null" },
-		 normalize => { sql => "TEXT" },
-		 version => { sql => "VARCHAR(16)" },
-		 table_type => { sql => "varchar(16)" },
+		site_name => { sql => "varchar(16) not null" },
+		version => { sql => "VARCHAR(16)" },
 		},
+      idbif => {
+		cid_size => undef,
+		normalize => { sql => "TEXT" },
+		table_type => { sql => "varchar(16)" },
+		options => { init_default => {} },
+	       },
       iarray => {
 		 classes => {
 			     aggreg => 1,
@@ -89,6 +88,8 @@ our $class_obj = __PACKAGE__->new
      classes => [ map { T2::Class->new( name => "T2::$_" ) }
 		  (qw(Class Attribute Association Method Schema)) ],
      normalize => '(my $name = shift) =~ s/T2:://; $name',
+     options => { dumper => "YAML"
+		},
     );
 
 sub _obj {
@@ -364,16 +365,18 @@ sub get_schema {
 	    }
 	}
 
-	# FIXME - let the normalize sub be specified
+    my %sql_o = %{ $self->options };
+
+    $sql_o{table_type} = $self->table_type if $self->table_type;
+
+        # FIXME - allow 
 	$self->set_schema
 	    ( new Tangram::Schema
 	      ({
 		cid_size => $self->cid_size,
 	  	classes => \@classes,
 		normalize => $self->normalize_sub,
-		( $self->table_type
-		  ? (sql => { table_type => $self->table_type })
-		  : () ),
+		sql => \%sql_o,
 	       })
 	    );
     }
@@ -436,6 +439,12 @@ sub class {
 	    };
 	return $self->class($name);
     }
+}
+
+sub set_classes {
+    my $self = shift;
+    delete $self->{class};
+    return $self->SUPER::set_classes(@_);
 }
 
 =head2 $schema->class_exists($name)
@@ -578,24 +587,6 @@ the schema of the T2::Schema modules.
 
 sub self_schema {
     return $class_obj;
-}
-
-sub JSDUMP_prepare {
-    my $self = shift;
-
-    $self->{_normalize_sub} = delete $self->{normalize_sub};
-    $self->{_class} = delete $self->{class};
-}
-
-sub JSDUMP_restore {
-    my $self = shift;
-
-    $self->{class} = delete $self->{_class};
-    $self->{normalize_sub} = delete $self->{_normalize_sub};
-}
-
-sub JSDUMP_classname {
-    return "T2_Schema";
 }
 
 sub T2_import {

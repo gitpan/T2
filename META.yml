@@ -1,13 +1,14 @@
 # http://module-build.sourceforge.net/META-spec.html
 #XXXXXXX This is a prototype!!!  It will change in the future!!! XXXXX#
 name:         T2
-version:      0.07
+version:      0.08
 version_from: lib/T2.pm
-installdirs:  vendor
+installdirs:  site
 requires:
     Class::Tangram:                1.54
     DBI:                           0
     Set::Object:                   1.04
+    Storable:                      2.07
     Tangram:                       2.07
     Test::More:                    0
 

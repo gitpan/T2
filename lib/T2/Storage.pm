@@ -22,7 +22,7 @@ proper into this new core.
 
 package T2::Storage;
 
-use strict;
+use strict 'vars', 'subs';
 use Tangram;
 use Tangram::FlatArray;
 use Carp;
@@ -71,10 +71,26 @@ sub open ($$;$) {
 
     $schema = $schema->schema if $schema->isa("T2::Schema");
 
-    # connect to the database
+    my $dbi_driver = (split ':', $dsn[0])[1];
+    my $tangram_d = "Tangram::$dbi_driver";
+    my $self;
+
     local $SIG{__DIE__} = sub { $@ = $_[0] };
-    my $self = $class->SUPER::connect($schema, @dsn)
-	or die $DBI::errstr;
+    eval "use $tangram_d";
+    if ( $@ ) {
+	# connect to the database
+	$self = $class->SUPER::connect($schema, @dsn)
+	    or die $DBI::errstr;
+    } else {
+	my $t2_storage = "T2::Storage::$dbi_driver";
+	unless ( keys %{"${t2_storage}::"}) {
+	    @{"${t2_storage}::ISA"}
+		= ("Tangram::${dbi_driver}::Storage",
+		   "T2::Storage");
+	}
+	$self = $t2_storage->connect($schema, @dsn)
+	    or die $DBI::errstr;
+    }
 
     # setup the object and return
     $self->{site_name} = $site_name;

@@ -1,3 +1,12 @@
+libt2-perl (0.08) unstable; urgency=low
+
+  * Removed bogus 'use Defer' line
+  * added support for auto-detecting Tangram RDBMS-specific back-ends
+  * Changed many types to use new IDBIF Tangram mapping
+  * Removed crufty module, javascript prototype generators etc.
+
+ -- Sam Vilain <sam@vilain.net>  Mon, 19 Jan 2004 11:19:08 +1300
+
 libt2-perl (0.07) unstable; urgency=low
 
   * Added T2::DBSetup
