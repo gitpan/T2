@@ -1,11 +1,12 @@
-README for T2 0.08
+README for T2 0.09
 ~~~~~~~~~~~~~~~~~~
 This module implements schema management and class auto-generation for
-Tangram.  It is also the centre for code refactoring of the Tangram
-core.  That is, eventually this suite will replace Tangram whilst
-providing a 100% compatible API.  At this point in time, I can see no
-reason why it couldn't provide the Pixie API as well, but that is a
-secondary concern :)
+Tangram.
+
+It was also envisioned to be the centre for code refactoring of the
+Tangram core, providing API compatibility - however this has been
+dropped as a goal of the module, and it is now focused on the Schema
+as a data object.
 
 To get started, run the test suite.  It will take you through setting
 up a database to hold your schemas, itself a Tangram store.  The test
@@ -28,3 +29,13 @@ due to a bug in Storable.  The bug is tracked in the Perl bug tracker:
 This bug has since been fixed, so if you get it try to upgrade your
 version of Storable.
 
+SQLite
+~~~~~~
+SQLite has an outstanding bug in it too, which gives lots of messages
+like this:
+
+   Use of uninitialized value in subroutine entry at /usr/local/lib/perl5/site_perl/5.8.4/Tangram/Storage.pm line 693.
+
+There is an RT ticket for that too, 
+
+   https://rt.cpan.org/Ticket/Display.html?id=9121

@@ -1,6 +1,6 @@
 package T2;
 use vars qw($VERSION);
-$VERSION = "0.08";
+$VERSION = "0.09";
 
  WumpT
 
@@ -269,10 +269,10 @@ the reasons you might want to use a database in the first place :-).
 
 Support for bugs is provided on a "politely state your problem with a
 test case to demonstrate the bug, and if you're lucky, someone will
-fix it for you" basis.
+fix it for you" basis by the Tangram community.
 
-To subscribe to the (currently fairly low volume) mailing list, see
-L<http://www.perlfect.com/mailman/listinfo/tangram-t2-maintainers>.
+The current home page, including information on the mailing list, IRC
+channels, SVN servers, etc is at L<http://tangram.utsl.gen.nz/>.
 
 =head1 CREDITS / AUTHOR
 

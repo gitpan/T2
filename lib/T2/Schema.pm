@@ -511,6 +511,14 @@ sub add_class_from_schema {
     $class->set_cid($tangram_schema->{id});
     $class->set_table($tangram_schema->{table});
 
+    my @methods;
+    while ( my ($name, $method)
+	    = each %{$tangram_schema->{methods}||{}} ) {
+	push @methods, T2::Method->new(name => $name,
+				       code => $method);
+    }
+    $class->set_methods(@methods);
+
     # add to the schema - this will `knit' together the associations
     $self->classes_push($class);
 

@@ -209,17 +209,16 @@ attributes that belong to I<this class only>.
 sub get_attributes {
     my $self = shift;
 
-    $self->{attributes} ||= Set::Object->new();
     if (wantarray) {
 	my @attribs;
 	if ($self->superclass) {
 	    push @attribs, $self->superclass->get_attributes;
 	}
 	push @attribs, sort { $a->name cmp $b->name }
-	    $self->{attributes}->members;
+	    $self->SUPER::get_attributes->members;
 	return @attribs;
     } else {
-	return $self->{attributes};
+	return $self->SUPER::get_attributes;
     }
 }
 
@@ -735,6 +734,7 @@ sub set_from_fields {
 	}
     }
 
+    #kill 2, $$ if $self->name =~ /CGI/;
     $self->attributes_insert(@attributes);
     $self->associations_insert(@associations);
 
