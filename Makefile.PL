@@ -1,4 +1,4 @@
-use ExtUtils::MakeMaker;
+use inc::Module::Install;
 
 # See lib/ExtUtils/MakeMaker.pm for details of how to influence
 # the contents of the Makefile that is written.
@@ -25,7 +25,7 @@ WriteMakefile
      'NAME'		=> "T2",
      'PREREQ_PM'        => {
 			    Set::Object => 1.04,
-			    Class::Tangram => 1.54,
+			    Class::Tangram => 1.56,
 			    Tangram => 2.07,
 			    "Test::More" => 0,
 			    DBI => 0,
